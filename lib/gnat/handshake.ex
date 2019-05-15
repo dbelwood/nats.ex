@@ -1,4 +1,5 @@
 defmodule Gnat.Handshake do
+  require Logger
   alias Gnat.Parsec
 
   @moduledoc """
@@ -33,6 +34,7 @@ defmodule Gnat.Handshake do
   end
   defp send_connect_message(socket, %{auth_required: true}=_options, %{auth_token: token}=connection_settings) do
     opts = Jason.encode!(%{auth_token: token, verbose: false}, maps: :strict)
+    Logger.info("Sending... CONNECT #{opts}")
     socket_write(connection_settings, socket, "CONNECT #{opts}\r\n")
   end
 
